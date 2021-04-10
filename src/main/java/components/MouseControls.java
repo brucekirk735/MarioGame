@@ -1,10 +1,12 @@
 package components;
 
 import jade.GameObject;
+import jade.KeyListener;
 import jade.MouseListener;
 import jade.Window;
 import util.Settings;
 
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT;
 
 public class MouseControls extends Component {
@@ -28,7 +30,13 @@ public class MouseControls extends Component {
             holdingObject.transform.position.y = (int)(holdingObject.transform.position.y / Settings.GRID_HEIGHT) * Settings.GRID_HEIGHT;
 
             if (MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_LEFT)) {
-                place();
+                holdingObject = holdingObject.copy();
+                Window.getScene().addGameObjectToScene(holdingObject);
+            }
+
+            if (KeyListener.isKeyPressed(GLFW_KEY_ESCAPE)) {
+                holdingObject.destroy();
+                holdingObject = null;
             }
         }
     }
